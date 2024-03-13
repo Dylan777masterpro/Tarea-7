@@ -1,0 +1,87 @@
+class CuentaBancaria:
+    def __init__(self, numero_cuenta, saldo):
+        self.numero_cuenta = numero_cuenta
+        self.saldo = saldo
+
+    def mostrar_informacion(self):
+        print("Número de cuenta:", self.numero_cuenta)
+        print("Saldo: ${}".format(self.saldo))
+
+
+class Empleado:
+    def __init__(self, nombre):
+        self.nombre = nombre
+        self.cuentas_bancarias = []
+
+    def agregar_cuenta(self, cuenta):
+        self.cuentas_bancarias.append(cuenta)
+
+    def mostrar_informacion(self):
+        print("Nombre del empleado:", self.nombre)
+        print("Cuentas bancarias:")
+
+        for cuenta in self.cuentas_bancarias:
+            cuenta.mostrar_informacion()
+            print("------------------------")
+
+
+class Banco:
+    def __init__(self):
+        self.empleados = []
+
+    def agregar_empleado(self, empleado):
+        self.empleados.append(empleado)
+
+    def mostrar_todos_los_usuarios(self):
+        for empleado in self.empleados:
+            empleado.mostrar_informacion()
+            print("=========================")
+
+    def mostrar_informacion_usuario(self, nombre):
+        for empleado in self.empleados:
+            if empleado.nombre == nombre:
+                empleado.mostrar_informacion()
+                return
+        print("Empleado no encontrado.")
+
+
+def main():
+    banco = Banco()
+
+    while True:
+        print("Menú:")
+        print("1. Agregar empleado")
+        print("2. Mostrar todos los usuarios")
+        print("3. Mostrar información de un usuario")
+        print("4. Salir")
+
+        opcion = int(input("Seleccione una opción: "))
+
+        if opcion == 1:
+            nombre_empleado = input("Ingrese el nombre del empleado: ")
+            nuevo_empleado = Empleado(nombre_empleado)
+
+            cantidad_cuentas = int(input("Ingrese la cantidad de cuentas bancarias del empleado: "))
+
+            for i in range(cantidad_cuentas):
+                numero_cuenta = int(input("Ingrese el número de cuenta {}: ".format(i + 1)))
+                saldo = float(input("Ingrese el saldo de la cuenta {}: ".format(i + 1)))
+
+                nuevo_empleado.agregar_cuenta(CuentaBancaria(numero_cuenta, saldo))
+
+            banco.agregar_empleado(nuevo_empleado)
+            print("Empleado agregado con éxito.")
+
+        elif opcion == 2:
+            banco.mostrar_todos_los_usuarios()
+
+        elif opcion == 3:
+            nombre_buscar = input("Ingrese el nombre del usuario a buscar: ")
+            banco.mostrar_informacion_usuario(nombre_buscar)
+
+        elif opcion == 4:
+            print("Saliendo del programa. ¡Hasta luego!")
+            break
+
+        else:
+            print("Opción no válida. Inténtelo de nuevo
